@@ -42,25 +42,47 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
         document.querySelector('#current-'+ activePlayer).textContent = roundScore;
     } else {
         // next player
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-
-        // changing the active class to the player that is actually playing consecutively
-        // document.querySelector('.player-0-panel').classList.remove('active');
-        // document.querySelector('.player-1-panel').classList.add('active');
-
-        document.querySelector('.dice').style.display = 'none';
-
-
-
+        nextPlayer();
     }
 });  // the btn is called by the event listenner hence called a callback function
+
+document.querySelector('.btn-hold').addEventListener('click', function(){
+    // when hold button is pressed, add current score to global score
+    scores[activePlayer] += roundScore;
+
+    // update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+    // check if player won the game
+    // activePlayer >= 100 ? document.querySelector('score-'+activePlayer) 
+
+    if (scores[activePlayer] >= 20){
+        document.querySelector('#name-'+ activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('winner');
+    } else {
+        nextPlayer();
+    }
+});
+
+function nextPlayer(){
+    // next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+
+    // changing the active class to the player that is actually playing consecutively
+    // document.querySelector('.player-0-panel').classList.remove('active');
+    // document.querySelector('.player-1-panel').classList.add('active');
+
+    document.querySelector('.dice').style.display = 'none';
+}
 
 // an unnonimous function cannot be re-used
 
