@@ -54,8 +54,6 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
     // check if player won the game
-    // activePlayer >= 100 ? document.querySelector('score-'+activePlayer) 
-
     if (scores[activePlayer] >= 20){
         document.querySelector('#name-'+ activePlayer).textContent = 'Winner!';
         document.querySelector('.dice').style.display = 'none';
@@ -77,11 +75,11 @@ function nextPlayer(){
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
 
+    document.querySelector('.dice').style.display = 'none';
+
     // changing the active class to the player that is actually playing consecutively
     // document.querySelector('.player-0-panel').classList.remove('active');
     // document.querySelector('.player-1-panel').classList.add('active');
-
-    document.querySelector('.dice').style.display = 'none';
 }
 
 // an unnonimous function cannot be re-used
