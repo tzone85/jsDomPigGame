@@ -1,0 +1,26 @@
+@startuml sequence_roll
+title Sequence — roll dice
+
+skinparam shadowing false
+
+actor User
+participant "#btn-roll" as Btn
+participant "ui.js" as UI
+participant "PigGame" as Game
+
+User -> Btn : click
+Btn -> UI : click event
+UI -> Game : roll()
+alt dice = 1
+  Game -> Game : roundScore = 0; switch player
+  Game --> UI : {ok:true, dice, event:'rolled-one'}
+else dice = 6 and lastDice = 6
+  Game -> Game : scores[active] = 0; switch player
+  Game --> UI : {ok:true, dice, event:'double-six-wipe'}
+else otherwise
+  Game -> Game : roundScore += dice; lastDice = dice
+  Game --> UI : {ok:true, dice, event:'added'}
+end
+Game -> UI : subscribe callback(snapshot)
+UI -> UI : update score/current panels + dice image
+@enduml
