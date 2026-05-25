@@ -1,0 +1,13 @@
+@startuml deployment
+title Deployment — static SPA
+
+skinparam shadowing false
+
+node Browser
+node "Static host" as host {
+  folder "dist/" as dist
+}
+
+[Vite build] --> dist : npm run build
+Browser --> dist : HTML / JS / CSS / dice PNGs
+@enduml

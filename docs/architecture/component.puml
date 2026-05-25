@@ -1,0 +1,33 @@
+@startuml component
+title Pig Game — Component Architecture
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+actor Player
+
+package "src/" {
+  [main.js\n(entry)] as main
+  [PigGame\n(pure state machine)] as game
+  [ui.js\n(DOM bindings + render)] as ui
+}
+
+cloud "DOM\n(#app)" as dom
+
+Player --> dom : click Roll / Hold / New game / target input
+dom --> ui : event handlers
+ui --> game : roll() / hold() / reset() / setTarget()
+game --> ui : subscribe(snapshot)
+ui --> dom : update scores, current, active/winner classes, dice img
+
+main --> game : new PigGame()
+main --> ui : mount(root, game)
+
+note right of game
+  Rules:
+  - dice=1 → roundScore=0, turn passes
+  - dice=6 after another 6 → total wiped, turn passes
+  - hold → roundScore added to total, win if >= target
+  - target clamped to [10..1000]
+end note
+@enduml
